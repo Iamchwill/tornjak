@@ -48,7 +48,6 @@ import EditEntryJson from './entry-edit-json';
 import { ToastContainer } from "react-toastify"
 import { showResponseToast, showToast } from './error-api';
 import apiEndpoints from './apiConfig';
-// import PropTypes from "prop-types"; // needed for testing will be removed on last pr
 
 type EditEntryProp = {
   // tornjak server debug info of the selected server
