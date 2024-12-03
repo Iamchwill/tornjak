@@ -49,12 +49,11 @@ const EditServerForm = ({ server, onSave, onClose, globalSelectorInfo, globalAge
           />
         </div>
 
-        {/* You can also add input fields for other props, if needed */}
         <div>
           <label>Selector Info:</label>
           <input
             type="text"
-            value={JSON.stringify(selectorInfo)}  // Just an example of handling complex data
+            value={JSON.stringify(selectorInfo)} 
             onChange={(e) => setSelectorInfo(JSON.parse(e.target.value))}
           />
         </div>
