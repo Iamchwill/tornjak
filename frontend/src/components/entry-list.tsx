@@ -35,7 +35,10 @@ type EntryListProp = {
   globalTornjakServerInfo: TornjakServerInfo,
 }
 
-type EntryListState = {}
+type EntryListState = {
+  isEditing: boolean;
+  selectedServer: TornjakServerInfo | null;
+};
 
 const Entry = (props: { entry: EntriesList }) => (
   <tr>
@@ -51,10 +54,14 @@ const Entry = (props: { entry: EntriesList }) => (
 
 class EntryList extends Component<EntryListProp, EntryListState> {
   TornjakApi: TornjakApi;
+
   constructor(props: EntryListProp) {
     super(props);
+    this.state = {
+      isEditing: false,
+      selectedServer: null,
+    };
     this.TornjakApi = new TornjakApi(props);
-    this.state = {}
   }
 
   componentDidMount() {
@@ -78,6 +85,25 @@ class EntryList extends Component<EntryListProp, EntryListState> {
       }
     }
   }
+
+  handleEditServer = (server: TornjakServerInfo) => {
+    this.setState({ isEditing: true, selectedServer: server });
+  };
+
+  handleSaveServer = (updatedServer: TornjakServerInfo) => {
+    this.TornjakApi.updateServerInfo(updatedServer)
+      .then(() => {
+        this.props.entriesListUpdateFunc(this.props.globalEntriesList);
+        this.setState({ isEditing: false, selectedServer: null });
+      })
+      .catch((error) => {
+        this.props.tornjakMessageFunc(`Error updating server: ${error.message}`);
+      });
+  };
+
+  handleCloseEdit = () => {
+    this.setState({ isEditing: false, selectedServer: null });
+  };
 
   entryList() {
     if (this.props.globalEntriesList === undefined) return ""
@@ -115,15 +141,6 @@ const mapStateToProps = (state: RootState) => ({
   globalDebugServerInfo: state.servers.globalDebugServerInfo,
 })
 
-// Note: Needed for UI testing - will be removed after
-// EntryList.propTypes = {
-//   globalServerSelected: PropTypes.string,
-//   globalEntriesList: PropTypes.array,
-//   globalErrorMessage: PropTypes.string,
-//   serverSelectedFunc: PropTypes.func,
-//   entriesListUpdateFunc: PropTypes.func,
-//   tornjakMessageFunc: PropTypes.func,
-// };
 
 export default connect(
   mapStateToProps,
