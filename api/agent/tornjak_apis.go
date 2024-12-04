@@ -123,3 +123,47 @@ func (s *Server) DeleteCluster(inp DeleteClusterRequest) error {
 	}
 	return s.Db.DeleteClusterEntry(cinfo.Name)
 }
+
+// EditServerRequest defines the request structure for editing server details.
+type EditServerRequest struct {
+	ServerID  string `json:"server_id"`
+	Name      string `json:"name"`
+	IPAddress string `json:"ip_address"`
+	Cluster   string `json:"cluster"`
+	Platform  string `json:"platform"`
+}
+
+// EditServer updates the server information in the local DB.
+func (s *Server) EditServer(inp EditServerRequest) error {
+	// Validate input fields
+	if len(inp.ServerID) == 0 {
+		return errors.New("server ID is required")
+	}
+	if len(inp.Name) == 0 {
+		return errors.New("server name is required")
+	}
+	if len(inp.IPAddress) == 0 {
+		return errors.New("server IP address is required")
+	}
+	if len(inp.Cluster) == 0 {
+		return errors.New("server cluster is required")
+	}
+
+	// Create the server info struct
+	serverInfo := tornjakTypes.ServerInfo{
+		ServerID:  inp.ServerID,
+		Name:      inp.Name,
+		IPAddress: inp.IPAddress,
+		Cluster:   inp.Cluster,
+		Platform:  inp.Platform,
+	}
+
+	// Call a method on the DB object to update the server (assuming you have a method for this)
+	err := s.Db.UpdateServerEntry(serverInfo)
+	if err != nil {
+		return err
+	}
+
+	// Return nil if everything was successful
+	return nil
+}
