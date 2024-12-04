@@ -137,16 +137,16 @@ type EditServerRequest struct {
 func (s *Server) EditServer(inp EditServerRequest) error {
 	// Validate input fields
 	if len(inp.ServerID) == 0 {
-		return errors.New("server ID is required")
+		return errors.New("server missing mandatory field - Server ID")
 	}
 	if len(inp.Name) == 0 {
-		return errors.New("server name is required")
+		return errors.New("server missing mandatory field - Name")
 	}
 	if len(inp.IPAddress) == 0 {
-		return errors.New("server IP address is required")
+		return errors.New("server missing mandatory field - IP address")
 	}
 	if len(inp.Cluster) == 0 {
-		return errors.New("server cluster is required")
+		return errors.New("server missing mandatory field - Cluster")
 	}
 
 	// Create the server info struct
@@ -158,7 +158,6 @@ func (s *Server) EditServer(inp EditServerRequest) error {
 		Platform:  inp.Platform,
 	}
 
-	// Call a method on the DB object to update the server (assuming you have a method for this)
 	err := s.Db.UpdateServerEntry(serverInfo)
 	if err != nil {
 		return err

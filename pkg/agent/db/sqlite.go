@@ -411,3 +411,10 @@ func (db *LocalSqliteDb) DeleteClusterEntry(clustername string) error {
 	}
 	return db.retryOp(operation)
 }
+
+func (db *LocalSqliteDb) EditServerEntry(cinfo types.ClusterInfo) error {
+	operation := func() error {
+		return db.editClusterEntryOp(cinfo)
+	}
+	return db.retryOp(operation)
+}
