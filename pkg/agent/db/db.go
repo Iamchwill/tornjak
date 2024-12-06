@@ -7,6 +7,7 @@ import (
 type AgentDB interface {
 	// AGENT - SELECTOR/PLUGIN interface
 	CreateAgentEntry(sinfo types.AgentInfo) error
+	EditAgentEntry(sinfo types.AgentInfo) error
 	GetAgentSelectors() (types.AgentInfoList, error)
 	GetAgentPluginInfo(name string) (types.AgentInfo, error)
 
@@ -17,7 +18,7 @@ type AgentDB interface {
 	DeleteClusterEntry(name string) error
 
 	// Server interface (Issue 514: work in progress)
-	EditServerEntry()
+	EditEntry()
 
 	// AGENT - CLUSTER Get interface (for testing)e
 	GetAgentClusterName(spiffeid string) (string, error)

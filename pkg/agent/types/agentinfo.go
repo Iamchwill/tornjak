@@ -7,6 +7,10 @@ type AgentInfo struct {
 	Cluster  string `json:"cluster"`
 }
 
+type AgentInput struct {
+	AgentInstance AgentInfo `json:"agent"`
+}
+
 // AgentInfoList contains the information about agents workload attestor plugin
 type AgentInfoList struct {
 	Agents []AgentInfo `json:"agents"`

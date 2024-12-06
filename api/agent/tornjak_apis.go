@@ -124,8 +124,35 @@ func (s *Server) DeleteCluster(inp DeleteClusterRequest) error {
 	return s.Db.DeleteClusterEntry(cinfo.Name)
 }
 
-// EditServerRequest defines the request structure for editing server details.
-type EditServerRequest struct {
+type EditAgentRequest tornjakTypes.AgentInfo
+
+// EditAgent updates the server information in the local DB.
+func (s *Server) EditAgent(inp EditAgentRequest) error {
+	sinfo := tornjakTypes.AgentInfo(inp.AgentInstance)
+	// Validate input fields
+	if len(inp.Spiffeid) == 0 {
+		return errors.New("agent missing mandatory field - Spiffeid")
+	}
+	if len(inp.Plugin) == 0 {
+		return errors.New("agent missing mandatory field - Plugin")
+	}
+	if len(inp.Cluster) == 0 {
+		return errors.New("agent missing mandatory field - Cluster")
+	}
+	if len(inp.Cluster) == 0 {
+		return errors.New("agent missing mandatory field - Cluster")
+	}
+	err := s.Db.EditClusterEntry(sinfo)
+	if err != nil {
+		return err
+	}
+
+	// Return nil if everything was successful
+	return nil
+}
+
+// EntryInput defines the request structure for editing server details.
+type EntryInput struct {
 	ServerID  string `json:"server_id"`
 	Name      string `json:"name"`
 	IPAddress string `json:"ip_address"`
@@ -134,7 +161,7 @@ type EditServerRequest struct {
 }
 
 // EditServer updates the server information in the local DB.
-func (s *Server) EditServer(inp EditServerRequest) error {
+func (s *Server) EditServer(inp EntryInput) error {
 	// Validate input fields
 	if len(inp.ServerID) == 0 {
 		return errors.New("server missing mandatory field - Server ID")
