@@ -246,6 +246,8 @@ func (s *Server) redirectHTTP(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, target, http.StatusFound)
 }
 
+func ()
+
 func (s *Server) stripPort(hostport string) string {
 	host, _, err := net.SplitHostPort(hostport)
 	if err != nil {

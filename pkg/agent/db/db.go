@@ -16,6 +16,9 @@ type AgentDB interface {
 	EditClusterEntry(cinfo types.ClusterInfo) error
 	DeleteClusterEntry(name string) error
 
+	// Server interface (Issue 514: work in progress)
+	EditServerEntry()
+
 	// AGENT - CLUSTER Get interface (for testing)e
 	GetAgentClusterName(spiffeid string) (string, error)
 	GetClusterAgents(name string) ([]string, error)
