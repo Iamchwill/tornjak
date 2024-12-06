@@ -412,9 +412,40 @@ func (db *LocalSqliteDb) DeleteClusterEntry(clustername string) error {
 	return db.retryOp(operation)
 }
 
-func (db *LocalSqliteDb) EditServerEntry(cinfo types.ClusterInfo) error {
+func (db *LocalSqliteDb) editAgentEntryOp(sinfo types.AgentInfo) error {
+	// BEGIN transaction
+	ctx := context.Background()
+	tx, err := db.database.BeginTx(ctx, nil)
+	if err != nil {
+		return errors.Errorf("Error initializing context: %v", err)
+	}
+	txHelper := getTornjakTxHelper(ctx, tx)
+
+	// UPDATE agent metadata
+	// err = txHelper.updateClusterMetadata(cinfo) <-- Create updateAgent in sqlite_txthelpers.go
+	if err != nil {
+		return backoff.Permanent(txHelper.rollbackHandler(err))
+	}
+
+	// REMOVE agent from cluster
+	// err = txHelper.deleteClusterAgents(cinfo.EditedName)
+	// if err != nil {
+	// 	return backoff.Permanent(txHelper.rollbackHandler(err))
+	// }
+
+	// ADD agent to specificed clusters
+	// err = txHelper.addAgentBatchToCluster(cinfo.EditedName, cinfo.AgentsList)
+	// if err != nil {
+	// 	return backoff.Permanent(txHelper.rollbackHandler(err))
+	// }
+
+	return tx.Commit()
+}
+
+// EditAgentEntry takes in struct sinfo of type AgentInfo.  If Agent with sinfo.Spiffeid not exist, throws error.
+func (db *LocalSqliteDb) EditAgentEntry(sinfo types.AgentInfo) error {
 	operation := func() error {
-		return db.editClusterEntryOp(cinfo)
+		return db.editAgentEntryOp(sinfo)
 	}
 	return db.retryOp(operation)
 }

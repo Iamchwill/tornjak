@@ -139,10 +139,10 @@ func (s *Server) EditAgent(inp EditAgentRequest) error {
 	if len(inp.Cluster) == 0 {
 		return errors.New("agent missing mandatory field - Cluster")
 	}
-	if len(inp.Cluster) == 0 {
-		return errors.New("agent missing mandatory field - Cluster")
+	if len(inp.EditedCluster) == 0 {
+		return errors.New("agent missing mandatory field - EditedCluster")
 	}
-	err := s.Db.EditClusterEntry(sinfo)
+	err := s.Db.EditAgentEntry(sinfo)
 	if err != nil {
 		return err
 	}
@@ -151,45 +151,45 @@ func (s *Server) EditAgent(inp EditAgentRequest) error {
 	return nil
 }
 
-// EntryInput defines the request structure for editing server details.
-type EntryInput struct {
-	ServerID  string `json:"server_id"`
-	Name      string `json:"name"`
-	IPAddress string `json:"ip_address"`
-	Cluster   string `json:"cluster"`
-	Platform  string `json:"platform"`
-}
+// // EntryInput defines the request structure for editing server details.
+// type EntryInput struct {
+// 	ServerID  string `json:"server_id"`
+// 	Name      string `json:"name"`
+// 	IPAddress string `json:"ip_address"`
+// 	Cluster   string `json:"cluster"`
+// 	Platform  string `json:"platform"`
+// }
 
-// EditServer updates the server information in the local DB.
-func (s *Server) EditServer(inp EntryInput) error {
-	// Validate input fields
-	if len(inp.ServerID) == 0 {
-		return errors.New("server missing mandatory field - Server ID")
-	}
-	if len(inp.Name) == 0 {
-		return errors.New("server missing mandatory field - Name")
-	}
-	if len(inp.IPAddress) == 0 {
-		return errors.New("server missing mandatory field - IP address")
-	}
-	if len(inp.Cluster) == 0 {
-		return errors.New("server missing mandatory field - Cluster")
-	}
+// // EditServer updates the server information in the local DB.
+// func (s *Server) EditServer(inp EntryInput) error {
+// 	// Validate input fields
+// 	if len(inp.ServerID) == 0 {
+// 		return errors.New("server missing mandatory field - Server ID")
+// 	}
+// 	if len(inp.Name) == 0 {
+// 		return errors.New("server missing mandatory field - Name")
+// 	}
+// 	if len(inp.IPAddress) == 0 {
+// 		return errors.New("server missing mandatory field - IP address")
+// 	}
+// 	if len(inp.Cluster) == 0 {
+// 		return errors.New("server missing mandatory field - Cluster")
+// 	}
 
-	// Create the server info struct
-	serverInfo := tornjakTypes.ServerInfo{
-		ServerID:  inp.ServerID,
-		Name:      inp.Name,
-		IPAddress: inp.IPAddress,
-		Cluster:   inp.Cluster,
-		Platform:  inp.Platform,
-	}
+// 	// Create the server info struct
+// 	serverInfo := tornjakTypes.ServerInfo{
+// 		ServerID:  inp.ServerID,
+// 		Name:      inp.Name,
+// 		IPAddress: inp.IPAddress,
+// 		Cluster:   inp.Cluster,
+// 		Platform:  inp.Platform,
+// 	}
 
-	err := s.Db.UpdateServerEntry(serverInfo)
-	if err != nil {
-		return err
-	}
+// 	err := s.Db.UpdateServerEntry(serverInfo)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	// Return nil if everything was successful
-	return nil
-}
+// 	// Return nil if everything was successful
+// 	return nil
+// }

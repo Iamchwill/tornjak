@@ -2,9 +2,10 @@ package types
 
 // AgentInfo contains the information about agents workload attestor plugin
 type AgentInfo struct {
-	Spiffeid string `json:"spiffeid"`
-	Plugin   string `json:"plugin"`
-	Cluster  string `json:"cluster"`
+	Spiffeid      string `json:"spiffeid"`
+	Plugin        string `json:"plugin"`
+	Cluster       string `json:"cluster"`
+	EditedCluster string `json:"editedCluster"`
 }
 
 type AgentInput struct {
