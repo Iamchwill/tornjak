@@ -184,16 +184,16 @@ func (t *tornjakTxHelper) deleteClusterAgents(clustername string) error {
 // updateAgentMetadata attempts update of Agent
 // returns SQLError on failure and PostFailure on Agent non-existence
 func (t *tornjakTxHelper) updateAgentMetadata(sinfo types.AgentInfo) error {
-	cmdUpdate := `UPDATE agents SET name=?, domain_name=?, managed_by=?, platform_type=? WHERE name=?`
+	cmdUpdate := `UPDATE agents SET cluster=? WHERE spiffeid=?`
 	statement, err := t.tx.PrepareContext(t.ctx, cmdUpdate)
 	if err != nil {
 		return SQLError{cmdUpdate, err}
 	}
 	defer statement.Close()
-	res, err := statement.ExecContext(t.ctx, cinfo.EditedName, cinfo.DomainName, cinfo.ManagedBy, cinfo.PlatformType, cinfo.Name)
+	res, err := statement.ExecContext(t.ctx, sinfo.Cluster)
 	if err != nil {
 		if serr, ok := err.(sqlite3.Error); ok && serr.Code == sqlite3.ErrConstraint {
-			return PostFailure{"Cluster already exists; use Edit Cluster"}
+			return PostFailure{""}
 		}
 		return SQLError{cmdUpdate, err}
 	}
@@ -204,7 +204,7 @@ func (t *tornjakTxHelper) updateAgentMetadata(sinfo types.AgentInfo) error {
 		return SQLError{cmdUpdate, err}
 	}
 	if numRows != 1 {
-		return PostFailure{"Cluster does not exist; use Create Cluster"}
+		return PostFailure{"Agent does not exist"}
 	}
 
 	return nil
