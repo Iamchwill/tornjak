@@ -378,6 +378,7 @@ kubectl exec -n spire -c spire-server spire-server-0 -- `
     -node
 ```
 </details>
+
 ```
 Entry ID         : 03d0ec2b-54b7-4340-a0b9-d3b2cf1b041a
 SPIFFE ID        : spiffe://example.org/ns/spire/sa/spire-agent
@@ -412,6 +413,7 @@ kubectl exec -n spire -c spire-server spire-server-0 -- `
     -node
 ```
 </details>
+
 ```
 Entry ID         : 11a367ab-7095-4390-ab89-34dea5fddd61
 SPIFFE ID        : spiffe://example.org/ns/default/sa/default
