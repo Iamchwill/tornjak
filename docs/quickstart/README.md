@@ -266,7 +266,22 @@ kubectl apply -f spire-namespace.yaml \
     -f server-statefulset.yaml \
     -f server-service.yaml
 ```
+
 The above command should deploy the SPIRE server with Tornjak:
+
+<details open><summary><b> 🔴 [Click] For Microsoft OS variant </b></summary>
+ 
+```console
+kubectl apply -f spire-namespace.yaml `
+    -f server-account.yaml `
+    -f spire-bundle-configmap.yaml `
+    -f tornjak-configmap.yaml `
+    -f server-cluster-role.yaml `
+    -f server-configmap.yaml `
+    -f server-statefulset.yaml `
+    -f server-service.yaml
+```
+</details>
 
 ```
 namespace/spire created
