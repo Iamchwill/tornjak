@@ -325,6 +325,16 @@ kubectl apply \
     -f agent-configmap.yaml \
     -f agent-daemonset.yaml
 ```
+<details open><summary><b> 🔴 [Click] For Microsoft OS variant </b></summary>
+ 
+```console
+kubectl apply `
+    -f agent-account.yaml `
+    -f agent-cluster-role.yaml `
+    -f agent-configmap.yaml `
+    -f agent-daemonset.yaml
+```
+</details>
 
 ```
 serviceaccount/spire-agent created
@@ -356,7 +366,18 @@ kubectl exec -n spire -c spire-server spire-server-0 -- \
     -selector k8s_sat:agent_sa:spire-agent \
     -node
 ```
-
+<details open><summary><b> 🔴 [Click] For Microsoft OS variant </b></summary>
+ 
+```console
+kubectl exec -n spire -c spire-server spire-server-0 -- `
+    /opt/spire/bin/spire-server entry create `
+    -spiffeID spiffe://example.org/ns/spire/sa/spire-agent `
+    -selector k8s_sat:cluster:demo-cluster `
+    -selector k8s_sat:agent_ns:spire `
+    -selector k8s_sat:agent_sa:spire-agent `
+    -node
+```
+</details>
 ```
 Entry ID         : 03d0ec2b-54b7-4340-a0b9-d3b2cf1b041a
 SPIFFE ID        : spiffe://example.org/ns/spire/sa/spire-agent
@@ -379,7 +400,18 @@ kubectl exec -n spire -c spire-server spire-server-0 -- \
     -selector k8s:ns:default \
     -selector k8s:sa:default
 ```
-
+<details open><summary><b> 🔴 [Click] For Microsoft OS variant </b></summary>
+ 
+```console
+kubectl exec -n spire -c spire-server spire-server-0 -- `
+    /opt/spire/bin/spire-server entry create `
+    -spiffeID spiffe://example.org/ns/spire/sa/spire-agent `
+    -selector k8s_sat:cluster:demo-cluster `
+    -selector k8s_sat:agent_ns:spire `
+    -selector k8s_sat:agent_sa:spire-agent `
+    -node
+```
+</details>
 ```
 Entry ID         : 11a367ab-7095-4390-ab89-34dea5fddd61
 SPIFFE ID        : spiffe://example.org/ns/default/sa/default
@@ -405,6 +437,8 @@ And also verify that the container can access the workload API UNIX domain socke
 kubectl exec -it $(kubectl get pods -o=jsonpath='{.items[0].metadata.name}' \
    -l app=client)  -- /opt/spire/bin/spire-agent api fetch -socketPath /run/spire/sockets/agent.sock
 ```
+kubectl exec -it $(kubectl get pods -o=jsonpath='{.items[0].metadata.name}' `
+   -l app=client)  -- /opt/spire/bin/spire-agent api fetch -socketPath /run/spire/sockets/agent.sock
 
 ```
 Received 1 svid after 8.8537ms
