@@ -406,11 +406,10 @@ kubectl exec -n spire -c spire-server spire-server-0 -- \
 ```console
 kubectl exec -n spire -c spire-server spire-server-0 -- `
     /opt/spire/bin/spire-server entry create `
-    -spiffeID spiffe://example.org/ns/spire/sa/spire-agent `
-    -selector k8s_sat:cluster:demo-cluster `
-    -selector k8s_sat:agent_ns:spire `
-    -selector k8s_sat:agent_sa:spire-agent `
-    -node
+    -spiffeID spiffe://example.org/ns/default/sa/default `
+    -parentID spiffe://example.org/ns/spire/sa/spire-agent `
+    -selector k8s:ns:default `
+    -selector k8s:sa:default
 ```
 </details>
 
@@ -439,8 +438,14 @@ And also verify that the container can access the workload API UNIX domain socke
 kubectl exec -it $(kubectl get pods -o=jsonpath='{.items[0].metadata.name}' \
    -l app=client)  -- /opt/spire/bin/spire-agent api fetch -socketPath /run/spire/sockets/agent.sock
 ```
+
+<details open><summary><b> 🔴 [Click] For Microsoft OS variant </b></summary>
+
+```console
 kubectl exec -it $(kubectl get pods -o=jsonpath='{.items[0].metadata.name}' `
    -l app=client)  -- /opt/spire/bin/spire-agent api fetch -socketPath /run/spire/sockets/agent.sock
+```
+</details>
 
 ```
 Received 1 svid after 8.8537ms
