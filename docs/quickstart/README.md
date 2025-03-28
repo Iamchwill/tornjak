@@ -323,7 +323,7 @@ NOTE: You may initially see a `0/1` for READY status. Just wait a few minutes an
 ### Deploying the agent and creating test entries
 
 The following steps will configure and deploy the SPIRE agent.
-NOTE: In a windows environment, you will need to replace the backslashes ( \\ ) below with backticks ( \` ) to copy and paste into a windows terminal
+
 ```console
 kubectl apply \
     -f agent-account.yaml \
@@ -363,7 +363,6 @@ spire-agent   1         1         1       1            1           <none>       
 
 Then, we can create a registration entry for the node.
 
-NOTE: In a windows environment, you will need to replace the backslashes ( \\ ) below with backticks ( \` ) to copy and paste into a windows terminal
 ```console
 kubectl exec -n spire -c spire-server spire-server-0 -- \
     /opt/spire/bin/spire-server entry create \
@@ -399,7 +398,6 @@ Selector         : k8s_sat:cluster:demo-cluster
 
 And we create a registration entry for the workload registrar, specifying the workload registrar's SPIFFE ID:
 
-NOTE: In a windows environment, you will need to replace the backslashes ( \\ ) below with backticks ( \` ) to copy and paste into a windows terminal
 ```console
 kubectl exec -n spire -c spire-server spire-server-0 -- \
     /opt/spire/bin/spire-server entry create \
