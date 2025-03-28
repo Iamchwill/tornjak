@@ -26,10 +26,12 @@ Contents
 Before you begin this tutorial, make sure you have the following:
 - Minikube: Version 1.12.0 or later. [Download Minikube.](https://minikube.sigs.k8s.io/docs/start/)
 - Docker: Version 20.10.23 or later. [Install Docker.](https://docs.docker.com/get-docker/)
+- Helm: Version 3.17.2 or later. [Install Helm.](https://helm.sh/docs/intro/install/)
 
 Note: While we have tested this tutorial with the versions below, newer versions should also work. Ensure you're using the most recent stable releases to avoid compatibility issues.
  - Minikube Version 1.12.0, Version 1.31.2
  - Docker Version 20.10.23, Version 24.0.6
+ - Helm Version 3.17.2 
 
 ## Step 1: Setup deployment files
 
