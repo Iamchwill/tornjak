@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "tornjak_quickstart.fullname" . }}-test-connection"
+  labels:
+    {{- include "tornjak_quickstart.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "tornjak_quickstart.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
