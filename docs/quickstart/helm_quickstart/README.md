@@ -263,33 +263,6 @@ This is all done specifically to pass the Tornjak config file as an argument to 
 
 Now that we have the correct deployment files, please follow the below steps to deploy Tornjak and SPIRE!
 
-NOTE: In a Windows OS environment, you will need to replace the backslashes ( \\ ) below with backticks ( \` ) to copy and paste into a Windows terminal. This doesnt apply for Mac.
-```console
-kubectl apply -f spire-namespace.yaml \
-    -f server-account.yaml \
-    -f spire-bundle-configmap.yaml \
-    -f tornjak-configmap.yaml \
-    -f server-cluster-role.yaml \
-    -f server-configmap.yaml \
-    -f server-statefulset.yaml \
-    -f server-service.yaml
-```
-
-The above command should deploy the SPIRE server with Tornjak:
-
-<details open><summary><b> 🔴 [Click] For Microsoft OS variant </b></summary>
- 
-```console
-kubectl apply -f spire-namespace.yaml `
-    -f server-account.yaml `
-    -f spire-bundle-configmap.yaml `
-    -f tornjak-configmap.yaml `
-    -f server-cluster-role.yaml `
-    -f server-configmap.yaml `
-    -f server-statefulset.yaml `
-    -f server-service.yaml
-```
-</details>
 
 ```
 namespace/spire created
@@ -324,25 +297,6 @@ NOTE: You may initially see a `0/1` for READY status. Just wait a few minutes an
 
 ### Deploying the agent and creating test entries
 
-The following steps will configure and deploy the SPIRE agent.
-
-```console
-kubectl apply \
-    -f agent-account.yaml \
-    -f agent-cluster-role.yaml \
-    -f agent-configmap.yaml \
-    -f agent-daemonset.yaml
-```
-<details open><summary><b> 🔴 [Click] For Microsoft OS variant </b></summary>
- 
-```console
-kubectl apply `
-    -f agent-account.yaml `
-    -f agent-cluster-role.yaml `
-    -f agent-configmap.yaml `
-    -f agent-daemonset.yaml
-```
-</details>
 
 ```
 serviceaccount/spire-agent created
@@ -365,27 +319,6 @@ spire-agent   1         1         1       1            1           <none>       
 
 Then, we can create a registration entry for the node.
 
-```console
-kubectl exec -n spire -c spire-server spire-server-0 -- \
-    /opt/spire/bin/spire-server entry create \
-    -spiffeID spiffe://example.org/ns/spire/sa/spire-agent \
-    -selector k8s_sat:cluster:demo-cluster \
-    -selector k8s_sat:agent_ns:spire \
-    -selector k8s_sat:agent_sa:spire-agent \
-    -node
-```
-<details open><summary><b> 🔴 [Click] For Microsoft OS variant </b></summary>
- 
-```console
-kubectl exec -n spire -c spire-server spire-server-0 -- `
-    /opt/spire/bin/spire-server entry create `
-    -spiffeID spiffe://example.org/ns/spire/sa/spire-agent `
-    -selector k8s_sat:cluster:demo-cluster `
-    -selector k8s_sat:agent_ns:spire `
-    -selector k8s_sat:agent_sa:spire-agent `
-    -node
-```
-</details>
 
 ```
 Entry ID         : 03d0ec2b-54b7-4340-a0b9-d3b2cf1b041a
@@ -431,13 +364,6 @@ Selector         : k8s:sa:default
 ```
 
 Finally, here we deploy a workload container:
-
-```console
-kubectl apply -f client-deployment.yaml
-```
-```
-deployment.apps/client created
-```
 
 And also verify that the container can access the workload API UNIX domain socket:
 
